@@ -1,0 +1,7 @@
+History.txt
+Manifest.txt
+README.txt
+Rakefile
+bin/sequencer
+lib/sequencer.rb
+test/test_sequencer.rb
