@@ -1,5 +1,5 @@
 module Sequencer
-  VERSION = '1.0.0'
+  VERSION = '1.0.1'
   NUMBERS_AT_END = /(\d+)([^\d]+)?$/
   
   extend self
@@ -75,6 +75,7 @@ module Sequencer
   class Sequence
     include Enumerable
     attr_reader :pattern
+    attr_reader :directory
     
     def initialize(directory, filenames)
       raise "Can't sequence nothingness" if filenames.empty?
@@ -134,6 +135,7 @@ module Sequencer
     def file_count
       @file_count ||= @filenames.length
     end
+    alias_method :length, :file_count
     
     # Check if this sequencer includes a file
     def include?(base_filename)
@@ -148,6 +150,16 @@ module Sequencer
     # Yield each absolute path to a file in the sequence to the block
     def each_path
       @filenames.each{|f| yield(File.join(@directory, f))}
+    end
+    
+    # Returns the array of filenames
+    def to_a
+      @filenames.dup
+    end
+    
+    # Returns paths to the files
+    def to_paths
+      @filenames.map{|f| File.join(@directory, f) }
     end
     
     private

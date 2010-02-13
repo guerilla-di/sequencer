@@ -1,3 +1,7 @@
+=== 1.0.1 / 2010-02-10
+
+* Add Sequence#length, Sequence#to_a, Sequence#directory and Sequence#to_paths
+
 === 1.0.0 / 2010-02-10
 
 * 1 major enhancement

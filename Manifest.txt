@@ -1,7 +1,8 @@
+.autotest
 History.txt
 Manifest.txt
 README.txt
 Rakefile
-bin/sequencer
+bin/seqls
 lib/sequencer.rb
 test/test_sequencer.rb

@@ -124,12 +124,18 @@ context "A Sequence created from pad-numbered files should" do
     
     @gapless.should.blaming("this is a gapless sequence").not.be.gaps?
     @gapless.file_count.should.blaming("actual file count in sequence").equal(446)
+    @gapless.length.should.blaming("actual file count in sequence").equal(446)
     @gapless.expected_frames.should.blaming("expected frame count in sequence").equal(446)
     @gapless.inspect.should.blaming("inspect itself").equal('#<seq1.[123..568].tif>')
     @gapless.pattern.should.equal 'seq1.%06d.tif'
-    files = @gapless.map {|f| f }
+    
+    files = @gapless.to_a
     files.length.should.equal 446
     files[0].should.equal 'seq1.000123.tif'
+    
+    paths = @gapless.to_paths
+    paths.length.should.equal 446
+    paths[0].should.equal(File.dirname(__FILE__) + "/tmp/sequence_and_sole_file/seq1.000123.tif")
   end
   
   specify "initialize itself from one path to a file in the sequence with gaps" do
