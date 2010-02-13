@@ -14,8 +14,10 @@ Simplifies working with image sequences
 == SYNOPSIS:
 
   require "sequencer"
-	s = Sequencer.from_path_to_file("/RAID/Film/CONFORM.092183.dpx")
-	s.length #=> 3201
+	s = Sequencer.from_single_file("/RAID/Film/CONFORM.092183.dpx")
+	s.file_count #=> 3201
+	s.gaps? #=> true
+	s.missing_frames #=> 15, somebody was careless
 
 == INSTALL:
 
