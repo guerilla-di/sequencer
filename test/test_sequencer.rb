@@ -145,10 +145,28 @@ context "A Sequence created from pad-numbered files should" do
     
     @with_gaps.should.be.gaps?
     @with_gaps.gap_count.should.equal 1
+    @with_gaps.segment_count.should.equal 2
     @with_gaps.missing_frames.should.equal(9)
     @with_gaps.inspect.should.blaming("inspect itself").equal('#<broken_seq.[123..568, 578..702].tif>')
     @with_gaps.should.include("broken_seq.000123.tif")
     @with_gaps.should.not.include("bogus.123.tif")
+  end
+  
+  specify "return subsequences without gaps" do
+    subseqs = @with_gaps.to_sequences
+    puts @with_gaps.inspect
+    puts subseqs.inspect
+    subseqs[0].should.be.kind_of(Sequencer::Sequence)
+    subseqs[1].should.be.kind_of(Sequencer::Sequence)
+    
+    first_seq, second_seq = subseqs
+    first_seq.first_frame_no.should.equal 123
+    first_seq.last_frame_no.should.equal 568
+    second_seq.first_frame_no.should.equal 578
+    second_seq.last_frame_no.should.equal 702
+    
+    first_seq.directory.should.equal second_seq.directory
+    first_seq.directory.should.equal @with_gaps.directory
   end
   
   specify "initialize itself from a single file" do

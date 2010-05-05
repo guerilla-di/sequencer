@@ -105,6 +105,22 @@ module Sequencer
       '#<%s>' % to_s
     end
     
+    # If this Sequence has gaps, this method will return an array of all subsequences that it contains
+    #     s # => #<broken_seq.[123..568, 578..702].tif>
+    #     s.to_sequences # => [#<broken_seq.[123..568].tif>, #<broken_seq.[578..702].tif>]
+    def to_sequences
+      return [self] unless gaps?
+      
+      last_offset = 0
+      
+      @ranges.map do | frame_range |
+        frames_in_seg = frame_range.end - frame_range.begin
+        seg_filenames = @filenames[last_offset..(last_offset + frames_in_seg)]
+        last_offset = last_offset + frames_in_seg + 1
+        s = self.class.new(@directory, seg_filenames)
+      end
+    end
+    
     def to_s
       return @filenames[0] if (!numbered? || single_file?)
       
@@ -124,6 +140,10 @@ module Sequencer
     
     def gap_count
       @ranges.length - 1
+    end
+    
+    def segment_count
+      @ranges.length
     end
     
     # Returns the number of frames that the sequence should contain to be continuous
@@ -160,6 +180,16 @@ module Sequencer
     # Returns paths to the files
     def to_paths
       @filenames.map{|f| File.join(@directory, f) }
+    end
+    
+    # Returns the number of the first frame in the sequence
+    def first_frame_no
+      @ranges[0].begin
+    end
+
+    # Returns the number of the last frame in the sequence
+    def last_frame_no
+      @ranges[-1].end
     end
     
     private
