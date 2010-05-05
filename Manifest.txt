@@ -3,6 +3,6 @@ History.txt
 Manifest.txt
 README.txt
 Rakefile
-bin/seqls
+bin/rseqls
 lib/sequencer.rb
 test/test_sequencer.rb

@@ -1,0 +1,8 @@
+#!/usr/bin/env ruby
+
+require File.dirname(__FILE__) + "/../lib/sequencer"
+d = ARGV.shift || Dir.pwd
+
+Sequencer.entries(d).each do | e |
+  puts e
+end
