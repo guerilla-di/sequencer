@@ -1,5 +1,5 @@
 module Sequencer
-  VERSION = '1.0.1'
+  VERSION = '1.0.2'
   NUMBERS_AT_END = /(\d+)([^\d]+)?$/
   
   extend self
