@@ -47,7 +47,12 @@ def emit_test_dirs
     FileUtils.touch(TEST_DIR + "/many_seqs/anotherS %d.tif" % i)
   end
   FileUtils.touch(TEST_DIR + "/many_seqs/single.tif")
-  $emitted = true
+  
+  FileUtils.mkdir_p(TEST_DIR + "/many_seqs/subdir")
+  (445..471).each do | i |
+    FileUtils.touch(TEST_DIR + "/many_seqs/subdir/in_subdir %d.tif" % i)
+  end
+  
 end
 
 def teardown_test_dirs
@@ -154,8 +159,6 @@ context "A Sequence created from pad-numbered files should" do
   
   specify "return subsequences without gaps" do
     subseqs = @with_gaps.to_sequences
-    puts @with_gaps.inspect
-    puts subseqs.inspect
     subseqs[0].should.be.kind_of(Sequencer::Sequence)
     subseqs[1].should.be.kind_of(Sequencer::Sequence)
     
@@ -167,6 +170,12 @@ context "A Sequence created from pad-numbered files should" do
     
     first_seq.directory.should.equal second_seq.directory
     first_seq.directory.should.equal @with_gaps.directory
+  end
+  
+  specify "list all sequences in directory and subdirectories using the pattern" do
+    s = Sequencer.from_glob(TEST_DIR + "/**/*.tif")
+    inspected = '[#<single.tif>, #<seq1.[458..512].tif>, #<anotherS [228..312].tif>, #<in_subdir [445..471].tif>, #<seq1.[123..568].tif>, #<somefile.tif>, #<single_file.002123154.tif>, #<broken_seq.[123..568, 578..702].tif>]'
+    s.inspect.should.equal inspected
   end
   
   specify "initialize itself from a single file" do

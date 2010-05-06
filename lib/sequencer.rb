@@ -11,6 +11,8 @@ module Sequencer
     groups = {}
     
     actual_files.each do | e |
+      next if File.directory?(File.join(of_dir, e))
+      
       if e =~ NUMBERS_AT_END
         base = e[0...-([$1, $2].join.length)]
         key = [base, $2]
@@ -35,6 +37,12 @@ module Sequencer
     else # Take the slower path by pattern-matching on entries
       sequence_via_patterns(path_to_single_file)
     end
+  end
+  
+  # Detect multiple sequences from a glob result
+  def from_glob(glob_pattern)
+    dirs_of_matched_files = Dir.glob(glob_pattern).map(&File.method(:dirname)).uniq
+    dirs_of_matched_files.map(&method(:entries)).flatten
   end
   
   # Get a glob pattern and padding offset for a file in a sequence
@@ -120,6 +128,7 @@ module Sequencer
         s = self.class.new(@directory, seg_filenames)
       end
     end
+    
     
     def to_s
       return @filenames[0] if (!numbered? || single_file?)

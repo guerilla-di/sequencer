@@ -1,5 +1,6 @@
 === 1.0.2 / 2010-05-06
 
+* Add Sequence#from_glob for scavenging all sequences from all subdirs
 * Add Sequence#first_frame_no and Sequence#last_frame_no for first and last frame offset
 * Add Sequence#to_sequences that returns the whole subsequences contained within a sequence
 
