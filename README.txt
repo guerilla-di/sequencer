@@ -6,7 +6,7 @@
 
 Simplifies working with image sequences
 
-== FEATURES/PROBLEMS:
+== FEATURES:
 
 * List all sequences in a directory interspersed with other file entries
 * Detect sequence from single file
@@ -18,6 +18,7 @@ Simplifies working with image sequences
 	s.file_count #=> 3201
 	s.gaps? #=> true
 	s.missing_frames #=> 15, somebody was careless
+	s.pattern #=> "CONFORM.%06d.dpx", usable with printf right awayx
 
 == INSTALL:
 

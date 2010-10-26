@@ -1,5 +1,5 @@
 module Sequencer
-  VERSION = '1.0.3'
+  VERSION = '1.0.4'
   NUMBERS_AT_END = /(\d+)([^\d]+)?$/
   
   extend self
@@ -30,7 +30,8 @@ module Sequencer
   
   # Detect a Sequence from a single file and return a handle to it
   def from_single_file(path_to_single_file)
-    File.stat(path_to_single_file)
+    #File.stat(path_to_single_file)
+    
     frame_number = path_to_single_file.scan(NUMBERS_AT_END).flatten.shift
     if frame_number =~ /^0/ # Assume that the input is padded and take the glob path
       sequence_via_glob(path_to_single_file)
@@ -86,7 +87,7 @@ module Sequencer
     attr_reader :directory
     
     def initialize(directory, filenames)
-      raise "Can't sequence nothingness" if filenames.empty?
+      raise "Cannot create a Sequence with no files" if filenames.empty?
       @directory, @filenames = directory, natural_sort(filenames)
       @directory.freeze
       @filenames.freeze
@@ -202,9 +203,17 @@ module Sequencer
     end
     
     # Apply a bulk rename
-    def bulk_rename(with_pattern)
-      rename_map = filenames.inject({}) do | filename, map |
+    def bulk_rename(with_pattern, into_directory = nil, &operation)
+      # Check if the pattern includes a number. If it doesnt, add one and the
+      # extension
+      unless with_pattern.include?("%")
+        padz = last_frame_no.to_s.length
+        with_pattern = [with_pattern, ".%0#{padz}d", File.extname(pattern)].join
+      end
+      
+      rename_map = @filenames.inject({}) do | map, filename |
         frame_no = filename.scan(NUMBERS_AT_END).flatten.shift.to_i
+        
         map.merge(filename => (with_pattern % frame_no))
       end
       
@@ -217,15 +226,19 @@ module Sequencer
         raise "This would overwrite old files with the renamed ones (#{error[0..1]}.join(',')..)"
       end
       
-      if (error = (Dir.entries(@directory) % rename_map.values)).any?
+      if (error = (Dir.entries(@directory) & rename_map.values)).any?
         raise "Files that will be created by the rename are already in place (#{error[0..1]}.join(',')..)"
       end
       
+      destination = into_directory || directory
       
-    end
-    
-    def bulk_rename!(with_pattern)
-      replace(bulk_rename(with_pattern))
+      rename_map.each_pair do | from_path, to_path |
+        src, dest = File.join(directory, from_path), File.join(destination, to_path)
+        File.rename(src, dest)
+        #yield(src, dest)
+      end
+      
+      self.class.new(destination, rename_map.values)
     end
     
     private

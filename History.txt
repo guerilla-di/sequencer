@@ -1,6 +1,10 @@
+=== 1.0.4 / 2010-10-26
+
+* Add rseqrename binary that batch-renames sequences
+
 === 1.0.3 / 2010-10-26
 
-* Add rseqpad binary that zero-pads filenames
+* Add rseqpad binary that zero-pads sequences
 
 === 1.0.2 / 2010-05-06
 

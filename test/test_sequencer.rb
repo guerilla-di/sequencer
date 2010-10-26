@@ -111,6 +111,25 @@ context "A Sequence created from a file that has no numbering slot should" do
   end
 end
 
+context "Sequencer#bulk_rename should" do
+  before do
+    emit_test_dirs
+    @with_gaps = Sequencer.from_single_file(TEST_DIR + "/sequence_and_sole_file/broken_seq.000245.tif")
+  end
+  
+  after { teardown_test_dirs }
+  
+  specify "return a new Sequencer with right parameters" do
+    res = @with_gaps.bulk_rename("another_base")
+    res.length.should.equal(@with_gaps.length)
+    res.directory.should.equal(@with_gaps.directory)
+    res.pattern.should.equal("another_base.%03d.tif")
+    
+    assert File.exist?(res.to_paths[0])
+    assert File.exist?(res.to_paths[-1])
+  end
+end
+
 context "A Sequence created from pad-numbered files should" do
   before do
     emit_test_dirs

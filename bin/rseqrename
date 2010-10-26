@@ -1,0 +1,9 @@
+#!/usr/bin/env ruby
+
+require File.dirname(__FILE__) + "/../lib/sequencer"
+
+one_file, base_pattern = ARGV.shift, ARGV.shift
+
+renames = []
+s = Sequencer.from_single_file(one_file)
+s.bulk_rename(base_pattern)
