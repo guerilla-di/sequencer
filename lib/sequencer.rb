@@ -1,5 +1,5 @@
 module Sequencer
-  VERSION = '1.0.2'
+  VERSION = '1.0.3'
   NUMBERS_AT_END = /(\d+)([^\d]+)?$/
   
   extend self
@@ -171,7 +171,7 @@ module Sequencer
       @filenames.include?(base_filename)
     end
     
-    # Yield each filename in the sequence to the block
+    # Yields the filename of each file to the block
     def each
       @filenames.each {|f| yield(f) }
     end
@@ -199,6 +199,33 @@ module Sequencer
     # Returns the number of the last frame in the sequence
     def last_frame_no
       @ranges[-1].end
+    end
+    
+    # Apply a bulk rename
+    def bulk_rename(with_pattern)
+      rename_map = filenames.inject({}) do | filename, map |
+        frame_no = filename.scan(NUMBERS_AT_END).flatten.shift.to_i
+        map.merge(filename => (with_pattern % frame_no))
+      end
+      
+      # Ensure we will not produce dupes
+      if (rename_map.values.uniq.length != rename_map.length)
+        raise "This would would produce non-unique files"
+      end
+      
+      if (error = (rename_map.keys & rename_map.values)).any?
+        raise "This would overwrite old files with the renamed ones (#{error[0..1]}.join(',')..)"
+      end
+      
+      if (error = (Dir.entries(@directory) % rename_map.values)).any?
+        raise "Files that will be created by the rename are already in place (#{error[0..1]}.join(',')..)"
+      end
+      
+      
+    end
+    
+    def bulk_rename!(with_pattern)
+      replace(bulk_rename(with_pattern))
     end
     
     private

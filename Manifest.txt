@@ -4,5 +4,6 @@ Manifest.txt
 README.txt
 Rakefile
 bin/rseqls
+bin/rseqpad
 lib/sequencer.rb
 test/test_sequencer.rb

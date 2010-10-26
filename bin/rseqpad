@@ -1,0 +1,38 @@
+#!/usr/bin/env ruby
+
+require File.dirname(__FILE__) + "/../lib/sequencer"
+
+d = ARGV.shift || Dir.pwd
+
+renames = []
+Sequencer.entries(d).each do | e |
+  next if e.length < 2
+  
+  padz = e.length.to_s.length
+  
+  puts "Repadding sequence #{e} with #{padz} zeroes"
+  
+  e.each do | f |
+    rep_name = f.gsub(/([\.\-\_]?)(\d+)\.(\w+)$/) do
+      ".%0#{padz}d.%s" % [$2.to_i, $3]
+    end
+    # Now this is a replaced name
+    from_to =  [File.join(e.directory, f), File.join(e.directory, rep_name)]
+    renames.push(from_to)
+  end
+end
+
+# Check for dupes
+destinations = renames.map{|e| e[1] }
+
+if (destinations.uniq.length != destinations.length)
+  twice = destinations.length - destinations.uniq.length
+  $stderr.puts "Cannot rename - #{twice} files will overwrite each other or files will be renamed twice"
+  twice.each {|e| $stderr.puts e }
+  exit -1
+end
+
+# And do the job
+renames.each do | from, to |
+  File.rename(from, to)
+end
