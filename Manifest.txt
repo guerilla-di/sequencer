@@ -1,9 +1,10 @@
 .autotest
 History.txt
 Manifest.txt
-README.txt
+README.rdoc
 Rakefile
 bin/rseqls
 bin/rseqpad
+bin/rseqrename
 lib/sequencer.rb
 test/test_sequencer.rb

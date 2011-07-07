@@ -1,5 +1,5 @@
 require 'test/unit'
-require 'rubygems'
+require 'set'
 require 'fileutils'
 require File.dirname(__FILE__) + '/../lib/sequencer'
 
@@ -197,8 +197,19 @@ class A_Sequence_created_from_pad_numbered_files_should < Test::Unit::TestCase
   
   def test_list_all_sequences_in_directory_and_subdirectories_using_the_pattern
     s = Sequencer.from_glob(TEST_DIR + "/**/*.tif")
-    inspected = '[#<single.tif>, #<seq1.[458..512].tif>, #<anotherS [228..312].tif>, #<in_subdir [445..471].tif>, #<seq1.[123..568].tif>, #<somefile.tif>, #<single_file.002123154.tif>, #<broken_seq.[123..568, 578..702].tif>]'
-    assert_equal inspected, s.inspect
+    # Here we need to use a Set since Ruby does not
+    ref_set = Set.new([
+      "#<anotherS [228..312].tif>",
+      "#<seq1.[458..512].tif>",
+      "#<single.tif>",
+      "#<in_subdir [445..471].tif>",
+      "#<broken_seq.[123..568, 578..702].tif>",
+      "#<seq1.[123..568].tif>",
+      "#<single_file.002123154.tif>",
+      "#<somefile.tif>"
+    ])
+    output_sequences = Set.new(s.map{|sequence| sequence.inspect })
+    assert_equal ref_set, output_sequences
   end
   
   def test_initialize_itself_from_a_single_file
