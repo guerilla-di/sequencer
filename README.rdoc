@@ -33,7 +33,7 @@ From code:
     s.file_count #=> 3201
     s.gaps? #=> true
     s.missing_frames #=> 15, somebody was careless
-    s.pattern #=> "CONFORM.%06d.dpx", usable with printf right awayx
+    s.pattern #=> "CONFORM.%06d.dpx", usable with printf right away
 
 == INSTALL:
 
