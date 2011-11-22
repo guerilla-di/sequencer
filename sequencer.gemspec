@@ -16,14 +16,16 @@ Gem::Specification.new do |s|
     "README.rdoc"
   ]
   s.files = [
+    ".travis.yml",
+    "Gemfile",
     "History.txt",
-    "Manifest.txt",
     "README.rdoc",
     "Rakefile",
     "bin/rseqls",
     "bin/rseqpad",
     "bin/rseqrename",
     "lib/sequencer.rb",
+    "sequencer.gemspec",
     "test/test_sequencer.rb"
   ]
   s.homepage = "http://guerilla-di.org/sequencer"
@@ -36,9 +38,15 @@ Gem::Specification.new do |s|
     s.specification_version = 3
 
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
+      s.add_development_dependency(%q<jeweler>, [">= 0"])
+      s.add_development_dependency(%q<rake>, [">= 0"])
     else
+      s.add_dependency(%q<jeweler>, [">= 0"])
+      s.add_dependency(%q<rake>, [">= 0"])
     end
   else
+    s.add_dependency(%q<jeweler>, [">= 0"])
+    s.add_dependency(%q<rake>, [">= 0"])
   end
 end
 
