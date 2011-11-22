@@ -1,13 +1,25 @@
 # -*- ruby -*-
 require 'rubygems'
-require 'hoe'
+require 'jeweler'
 require File.dirname(__FILE__) + "/lib/sequencer"
 
-Hoe::RUBY_FLAGS.gsub!(/^-w/, '')
-Hoe.spec 'sequencer' do | s |
-  s.readme_file   = 'README.rdoc'
-  s.extra_rdoc_files  = FileList['*.rdoc']
-  s.developer('Julik Tarkhanov', 'me@julik.nl')
+Jeweler::Tasks.new do |gem|
+  gem.version = Sequencer::VERSION
+  gem.name = "sequencer"
+  gem.summary = "Image sequence sorting, scanning and manipulation"
+  gem.email = "me@julik.nl"
+  gem.homepage = "http://guerilla-di.org/sequencer"
+  gem.authors = ["Julik Tarkhanov"]
+  gem.license = 'MIT'
+  gem.executables = %w( rseqls rseqpad rseqrename )
 end
 
-# vim: syntax=ruby
+Jeweler::RubygemsDotOrgTasks.new
+
+require 'rake/testtask'
+desc "Run all tests"
+task :test do
+  ruby "bacon -Ilib --automatic --quiet"
+end
+
+task :default => [ :test ]
