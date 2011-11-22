@@ -18,8 +18,8 @@ Jeweler::RubygemsDotOrgTasks.new
 
 require 'rake/testtask'
 desc "Run all tests"
-task :test do
-  ruby "bacon -Ilib --automatic --quiet"
+Rake::TestTask.new("test") do |t|
+  t.libs << "test"
+  t.pattern = 'test/**/test_*.rb'
+  t.verbose = true
 end
-
-task :default => [ :test ]
