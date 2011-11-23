@@ -12,6 +12,9 @@ Jeweler::Tasks.new do |gem|
   gem.authors = ["Julik Tarkhanov"]
   gem.license = 'MIT'
   gem.executables = %w( rseqls rseqpad rseqrename )
+  
+  # Do not package invisibles
+  gem.files.exclude ".*"
 end
 
 Jeweler::RubygemsDotOrgTasks.new
