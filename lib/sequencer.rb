@@ -217,6 +217,18 @@ module Sequencer
         map.merge(filename => (with_pattern % frame_no))
       end
       
+      destination = into_directory || directory
+      
+      # Ensure it's there
+      if (!File.exist?(destination))
+        raise "The destination #{destination} does not exist"
+      end
+      
+      # Ensure it's a dir
+      if (!File.directory?(destination))
+        raise "The destination #{destination} is not a directory"
+      end
+      
       # Ensure we will not produce dupes
       if (rename_map.values.uniq.length != rename_map.length)
         raise "This would would produce non-unique files"
@@ -226,11 +238,9 @@ module Sequencer
         raise "This would overwrite old files with the renamed ones (#{error[0..1]}.join(',')..)"
       end
       
-      if (error = (Dir.entries(@directory) & rename_map.values)).any?
+      if (error = (Dir.entries(destination) & rename_map.values)).any?
         raise "Files that will be created by the rename are already in place (#{error[0..1]}.join(',')..)"
       end
-      
-      destination = into_directory || directory
       
       rename_map.each_pair do | from_path, to_path |
         src, dest = File.join(directory, from_path), File.join(destination, to_path)
@@ -263,7 +273,7 @@ module Sequencer
           ["%0#{$1.length}d", $2].join
         end
       
-        # Look at the first file in the sequence. If it has a lesser number of 
+        # Look at the first file in the sequence. 
         lowest_padding = @filenames[0].scan(NUMBERS_AT_END).flatten.shift.length
         if lowest_padding < highest_padding # Natural numbering
           @pattern = @filenames[0].gsub(NUMBERS_AT_END) do
@@ -297,3 +307,5 @@ module Sequencer
   end
   
 end
+
+require File.dirname(__FILE__) + "/sequencer/padder"
