@@ -1,10 +1,10 @@
-= sequencer
+Sequencer is the swiss army knife of image sequence management for Ruby. It helps with things like
 
-* http://guerilla-di.org/sequencer
-
-== DESCRIPTION:
-
-Simplifies working with image sequences
+* Collapsing multibillion-files directory listings to sequence lists with sane names and sane string representations
+* Detecting gaps in image sequences
+* Renaming sequences for filename uniformity, number uniformity and so on
+* Managing image sequences as whole units for media management
+* ..and getting laid (sometimes)
 
 == FEATURES:
 
