@@ -1,26 +1,30 @@
-=== 1.0.5 / 2011-07-07
+=== 1.1.0
+
+* Make Sequence comparable to allow for sorted and unique sequences
+
+=== 1.0.5
 
 * Dicking around with testing frameworks that become obsolete is the worst thing ever.
 
-=== 1.0.4 / 2010-10-26
+=== 1.0.4
 
 * Add rseqrename binary that batch-renames sequences
 
-=== 1.0.3 / 2010-10-26
+=== 1.0.3
 
 * Add rseqpad binary that zero-pads sequences
 
-=== 1.0.2 / 2010-05-06
+=== 1.0.2
 
 * Add Sequence#from_glob for scavenging all sequences from all subdirs
 * Add Sequence#first_frame_no and Sequence#last_frame_no for first and last frame offset
 * Add Sequence#to_sequences that returns the whole subsequences contained within a sequence
 
-=== 1.0.1 / 2010-02-10
+=== 1.0.1
 
 * Add Sequence#length, Sequence#to_a, Sequence#directory and Sequence#to_paths
 
-=== 1.0.0 / 2010-02-10
+=== 1.0.0
 
 * 1 major enhancement
 

@@ -180,6 +180,12 @@ class A_Sequence_created_from_pad_numbered_files_should < Test::Unit::TestCase
     assert !@with_gaps.include?("bogus.123.tif")
   end
   
+  def test_equals_another
+    assert_not_nil @with_gaps
+    another = Sequencer.from_single_file(TEST_DIR + "/sequence_and_sole_file/broken_seq.000245.tif")
+    assert_equal @with_gaps, another
+  end
+  
   def test_return_subsequences_without_gaps
     subseqs = @with_gaps.to_sequences
     assert_kind_of Sequencer::Sequence, subseqs[0]

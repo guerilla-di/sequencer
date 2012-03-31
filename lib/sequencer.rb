@@ -1,5 +1,5 @@
 module Sequencer
-  VERSION = '1.0.5'
+  VERSION = '1.1.0'
   NUMBERS_AT_END = /(\d+)([^\d]+)?$/
   
   extend self
@@ -82,7 +82,7 @@ module Sequencer
   public
   
   class Sequence
-    include Enumerable
+    include Enumerable, Comparable
     attr_reader :pattern
     attr_reader :directory
     
@@ -249,6 +249,10 @@ module Sequencer
       end
       
       self.class.new(destination, rename_map.values)
+    end
+    
+    def <=>(another)
+      to_a <=> another.to_a
     end
     
     private
