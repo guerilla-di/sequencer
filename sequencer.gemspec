@@ -5,18 +5,17 @@
 
 Gem::Specification.new do |s|
   s.name = "sequencer"
-  s.version = "1.0.5"
+  s.version = "1.1.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Julik Tarkhanov"]
-  s.date = "2011-11-22"
+  s.date = "2012-03-31"
   s.email = "me@julik.nl"
   s.executables = ["rseqls", "rseqpad", "rseqrename"]
   s.extra_rdoc_files = [
     "README.rdoc"
   ]
   s.files = [
-    ".travis.yml",
     "Gemfile",
     "History.txt",
     "README.rdoc",
@@ -25,13 +24,14 @@ Gem::Specification.new do |s|
     "bin/rseqpad",
     "bin/rseqrename",
     "lib/sequencer.rb",
+    "lib/sequencer/padder.rb",
     "sequencer.gemspec",
     "test/test_sequencer.rb"
   ]
   s.homepage = "http://guerilla-di.org/sequencer"
   s.licenses = ["MIT"]
   s.require_paths = ["lib"]
-  s.rubygems_version = "1.8.11"
+  s.rubygems_version = "1.8.15"
   s.summary = "Image sequence sorting, scanning and manipulation"
 
   if s.respond_to? :specification_version then
