@@ -1,3 +1,7 @@
+=== 1.1.1
+
+* Fix comparison bugs
+
 === 1.1.0
 
 * Make Sequence comparable to allow for sorted and unique sequences

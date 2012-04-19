@@ -1,5 +1,5 @@
 module Sequencer
-  VERSION = '1.1.0'
+  VERSION = '1.1.1'
   NUMBERS_AT_END = /(\d+)([^\d]+)?$/
   
   extend self
@@ -252,7 +252,7 @@ module Sequencer
     end
     
     def <=>(another)
-      to_a <=> another.to_a
+      to_paths <=> another.to_paths
     end
     
     private
