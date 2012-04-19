@@ -209,7 +209,8 @@ class A_Sequence_created_from_pad_numbered_files_should < Test::Unit::TestCase
   
   def test_list_all_sequences_in_directory_and_subdirectories_using_the_pattern
     s = Sequencer.from_glob(TEST_DIR + "/**/*.tif")
-    # Here we need to use a Set since Ruby does not
+    # Here we need to use a Set since Ruby does not sort the globbed results
+    # in a cross-platform way
     ref_set = Set.new([
       "#<anotherS [228..312].tif>",
       "#<seq1.[458..512].tif>",
