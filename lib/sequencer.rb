@@ -1,5 +1,5 @@
 module Sequencer
-  VERSION = '1.1.1'
+  VERSION = '1.1.2'
   NUMBERS_AT_END = /(\d+)([^\d]+)?$/
   
   extend self
@@ -7,7 +7,7 @@ module Sequencer
   # Detects sequences in the passed directory (same as Dir.entries but returns Sequence objects).
   # Single files will be upgraded to single-frame Sequences
   def entries(of_dir)
-    actual_files = Dir.entries(of_dir)[2..-1]
+    actual_files = Dir.entries(of_dir).reject{|e| %w(.. .).include?(e)}
     groups = {}
     
     actual_files.each do | e |
@@ -83,6 +83,7 @@ module Sequencer
   
   class Sequence
     include Enumerable, Comparable
+    
     attr_reader :pattern
     attr_reader :directory
     
