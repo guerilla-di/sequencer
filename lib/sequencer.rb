@@ -1,5 +1,5 @@
 module Sequencer
-  VERSION = '1.1.2'
+  VERSION = '1.2.0'
   NUMBERS_AT_END = /(\d+)([^\d]+)?$/
   
   extend self
@@ -7,7 +7,14 @@ module Sequencer
   # Detects sequences in the passed directory (same as Dir.entries but returns Sequence objects).
   # Single files will be upgraded to single-frame Sequences
   def entries(of_dir)
-    actual_files = Dir.entries(of_dir).reject{|e| %w(.. .).include?(e)}
+    actual_files = Dir.entries(of_dir)
+    
+    # Remove all dotfiles
+    actual_files.reject!{|f| f =~ /^\./}
+    
+    # Ensure files are presorted
+    actual_files.sort!
+    
     groups = {}
     
     actual_files.each do | e |
@@ -26,6 +33,21 @@ module Sequencer
     groups.map do | key, filenames |
       Sequence.new(of_dir, filenames)
     end
+  end
+  
+  # Detects sequences in the passed directory and all of it's subdirectories
+  # It will skip all the entries starting with a dot
+  # TODO: fix symlink handling
+  def recursive_entries(of_dir)
+    detected_sequences = entries(of_dir)
+    possible_subdirs = Dir.entries(of_dir)
+    possible_subdirs.each do | possible_subdir |
+      next if possible_subdir =~ /^\./
+      
+      dirpath = File.join(of_dir, possible_subdir)
+      detected_sequences += recursive_entries(dirpath) if File.directory?(dirpath)
+    end
+    detected_sequences.sort
   end
   
   # Detect a Sequence from a single file and return a handle to it

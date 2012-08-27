@@ -1,3 +1,7 @@
+=== 1.2.0
+
+* Adds Sequencer.recursive_entries() for recursive sequence scans
+
 === 1.1.1
 
 * Fix comparison bugs

@@ -82,9 +82,10 @@ class Sequencer_entries_should < Test::Unit::TestCase
   def setup; emit_test_dirs; end
   def teardown; teardown_test_dirs; end
   
-  def test_returns_entries_for_every_sequence_in_a_directory
-    entries = Sequencer.entries(TEST_DIR + "/many_seqs")
-    flunk "this test is not finished"
+  def test_returns_entries_recursive_for_every_sequence_in_a_directory
+    entries = Sequencer.recursive_entries(TEST_DIR + "/many_seqs")
+    names = entries.map{|e| e.to_s }
+    assert_equal ["anotherS [228..312].tif", "seq1.[458..512].tif", "single.tif", "in_subdir [445..471].tif"], names
   end
 end
 
