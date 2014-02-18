@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = "sequencer"
-  s.version = "1.2.0"
+  s.version = "1.3.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Julik Tarkhanov"]
-  s.date = "2012-08-27"
+  s.date = "2014-02-18"
   s.email = "me@julik.nl"
   s.executables = ["rseqls", "rseqpad", "rseqrename"]
   s.extra_rdoc_files = [
@@ -31,11 +31,11 @@ Gem::Specification.new do |s|
   s.homepage = "http://guerilla-di.org/sequencer"
   s.licenses = ["MIT"]
   s.require_paths = ["lib"]
-  s.rubygems_version = "1.8.24"
+  s.rubygems_version = "2.0.3"
   s.summary = "Image sequence sorting, scanning and manipulation"
 
   if s.respond_to? :specification_version then
-    s.specification_version = 3
+    s.specification_version = 4
 
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
       s.add_development_dependency(%q<jeweler>, [">= 0"])
