@@ -1,25 +1,18 @@
 module Sequencer
-  VERSION = '1.2.0'
+  VERSION = '1.3.0'
   NUMBERS_AT_END = /(\d+)([^\d]+)?$/
   
   extend self
   
-  # Detects sequences in the passed directory (same as Dir.entries but returns Sequence objects).
-  # Single files will be upgraded to single-frame Sequences
-  def entries(of_dir)
-    actual_files = Dir.entries(of_dir)
-    
-    # Remove all dotfiles
-    actual_files.reject!{|f| f =~ /^\./}
-    
-    # Ensure files are presorted
-    actual_files.sort!
+  # Groups the names in the passed Enumerable
+  # into Sequence objects and returns them
+  def from_enumerable(enum, assume_directory = '')
+    # Remove all dotfiles, ensure files are presorted
+    actual_files = enum.reject{|e| e =~ /^\./ }.sort
     
     groups = {}
     
     actual_files.each do | e |
-      next if File.directory?(File.join(of_dir, e))
-      
       if e =~ NUMBERS_AT_END
         base = e[0...-([$1, $2].join.length)]
         key = [base, $2]
@@ -31,8 +24,21 @@ module Sequencer
     end
     
     groups.map do | key, filenames |
-      Sequence.new(of_dir, filenames)
+      Sequence.new(assume_directory, filenames)
     end
+  end
+  
+  # Detects sequences in the passed directory (same as Dir.entries but returns Sequence objects).
+  # Single files will be upgraded to single-frame Sequences
+  def entries(of_dir)
+    # Remove all dotfiles and directories
+    actual_files = Dir.entries(of_dir).reject do |e|
+      e =~ /^\./
+    end.reject do | e |
+      File.directory?(File.join(of_dir, e))
+    end
+    
+    from_enumerable(actual_files, of_dir)
   end
   
   # Detects sequences in the passed directory and all of it's subdirectories

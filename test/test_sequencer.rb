@@ -89,6 +89,18 @@ class Sequencer_entries_should < Test::Unit::TestCase
   end
 end
 
+class Sequencer_from_enum_should < Test::Unit::TestCase
+  def setup; emit_test_dirs; end
+  def teardown; teardown_test_dirs; end
+  
+  def test_returns_entries_from_enum
+    items = Dir.entries(TEST_DIR + '/many_seqs')
+    entries = Sequencer.from_enumerable(items)
+    names = entries.map{|e| e.to_s }
+    assert_equal ["anotherS [228..312].tif", "seq1.[458..512].tif", "single.tif", "subdir"], names
+  end
+end
+
 class A_Sequence_created_from_unpadded_files_should < Test::Unit::TestCase
   def setup; emit_test_dirs; end
   def teardown; teardown_test_dirs; end
