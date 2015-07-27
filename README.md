@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/guerilla-di/sequencer.svg?branch=master)](https://travis-ci.org/guerilla-di/sequencer)
+
 Sequencer is the swiss army knife of image sequence management for Ruby. It helps with things like
 
 * Collapsing multibillion-files directory listings to sequence lists with sane names and sane string representations
