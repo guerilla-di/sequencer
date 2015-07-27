@@ -97,7 +97,8 @@ class Sequencer_from_enum_should < Test::Unit::TestCase
     items = Dir.entries(TEST_DIR + '/many_seqs')
     entries = Sequencer.from_enumerable(items)
     names = entries.map{|e| e.to_s }
-    assert_equal ["anotherS [228..312].tif", "seq1.[458..512].tif", "single.tif", "subdir"], names
+    assert_equal Set.new(["anotherS [228..312].tif", "seq1.[458..512].tif", "single.tif", "subdir"]), 
+      Set.new(names)
   end
 end
 
