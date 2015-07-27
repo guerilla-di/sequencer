@@ -4,29 +4,23 @@ Sequencer is the swiss army knife of image sequence management for Ruby. It help
 * Detecting gaps in image sequences
 * Renaming sequences for filename uniformity, number uniformity and so on
 * Managing image sequences as whole units for media management
-* ..and getting laid (sometimes)
 
-== FEATURES:
-
-* List all sequences in a directory interspersed with other file entries
-* Detect sequence from single file
-
-== SYNOPSIS:
+## Usage
 
 From the terminal - go to a directory, and then:
 
-   $rseqls
-   
-      Fussball_Shot[1..1, 3..3].sni
-      FinalLichtUitValSec_Shot1.[1..128].jpg
-      Fussball_Shot3_v02.sni
-      FinalLichtUitValSec_Shot1.0001.ifl
-      FinalLichtUitValSec.0001.ifl
-      FinalLichtUitValSec.[1..185].jpg
-    
-You also have <tt>rseqpad</tt> and <tt>rseqrename</tt> :-)
-      
-From code:
+     $rseqls
+     
+        Fussball_Shot[1..1, 3..3].sni
+        FinalLichtUitValSec_Shot1.[1..128].jpg
+        Fussball_Shot3_v02.sni
+        FinalLichtUitValSec_Shot1.0001.ifl
+        FinalLichtUitValSec.0001.ifl
+        FinalLichtUitValSec.[1..185].jpg
+
+You also have `rseqpad` and `rseqrename` :-)
+
+From Ruby code:
 
     require "sequencer"
     s = Sequencer.from_single_file("/RAID/Film/CONFORM.092183.dpx")
@@ -35,15 +29,15 @@ From code:
     s.missing_frames #=> 15, somebody was careless
     s.pattern #=> "CONFORM.%06d.dpx", usable with printf right away
 
-== INSTALL:
+## Installation:
 
-* sudo gem install sequencer
+    $ gem install sequencer
 
-== LICENSE:
+## License
 
 (The MIT License)
 
-Copyright (c) 2010 Julik Tarkhanov (me@julik.nl)
+Copyright (c) 2010-2016 Julik Tarkhanov (me@julik.nl)
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the
