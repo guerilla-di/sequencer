@@ -1,6 +1,8 @@
+require File.dirname(__FILE__) + '/lib/sequencer/version'
+
 Gem::Specification.new do |s|
   s.name = "sequencer"
-  s.version = "2.0.0"
+  s.version = Sequencer::VERSION
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Julik Tarkhanov"]
