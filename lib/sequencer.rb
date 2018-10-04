@@ -1,5 +1,5 @@
 module Sequencer
-  VERSION = '1.3.0'
+  require File.dirname(__FILE__) + '/sequencer/version'
   NUMBERS_AT_END = /(\d+)([^\d]+)?$/
   
   extend self
