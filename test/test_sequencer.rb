@@ -1,4 +1,4 @@
-require 'test/unit'
+require 'minitest/autorun'
 require 'set'
 require 'fileutils'
 require File.dirname(__FILE__) + '/../lib/sequencer'
@@ -58,7 +58,7 @@ def teardown_test_dirs
   FileUtils.rm_rf(TEST_DIR)
 end
 
-class Test_glob_and_padding_for < Test::Unit::TestCase
+class Test_glob_and_padding_for < Minitest::Test
   
   def test_returns_proper_glob_pattern_padding_for_a_path_with_extension
     glob, pad = Sequencer.glob_and_padding_for("file.00001.gif")
@@ -78,7 +78,7 @@ class Test_glob_and_padding_for < Test::Unit::TestCase
   end
 end
 
-class Sequencer_entries_should < Test::Unit::TestCase
+class Sequencer_entries_should < Minitest::Test
   def setup; emit_test_dirs; end
   def teardown; teardown_test_dirs; end
   
@@ -89,7 +89,7 @@ class Sequencer_entries_should < Test::Unit::TestCase
   end
 end
 
-class Sequencer_from_enum_should < Test::Unit::TestCase
+class Sequencer_from_enum_should < Minitest::Test
   def setup; emit_test_dirs; end
   def teardown; teardown_test_dirs; end
   
@@ -102,13 +102,13 @@ class Sequencer_from_enum_should < Test::Unit::TestCase
   end
 end
 
-class A_Sequence_created_from_unpadded_files_should < Test::Unit::TestCase
+class A_Sequence_created_from_unpadded_files_should < Minitest::Test
   def setup; emit_test_dirs; end
   def teardown; teardown_test_dirs; end
   
   def test_properly_created
     s = Sequencer.from_single_file(TEST_DIR + "/natural_numbering/somefiles 5545168.png")
-    assert_not_nil s
+    assert s
     assert_equal 30, s.expected_frames
     assert_equal 30, s.file_count
     assert_equal "somefiles %07d.png", s.pattern
@@ -126,7 +126,7 @@ class A_Sequence_created_from_a_file_that_has_no_numbering_slot_should
   end
 end
 
-class Sequencer_bulk_rename_should < Test::Unit::TestCase
+class Sequencer_bulk_rename_should < Minitest::Test
   def setup
     emit_test_dirs
     @with_gaps = Sequencer.from_single_file(TEST_DIR + "/sequence_and_sole_file/broken_seq.000245.tif")
@@ -147,7 +147,7 @@ class Sequencer_bulk_rename_should < Test::Unit::TestCase
   end
 end
 
-class A_Sequence_created_from_pad_numbered_files_should < Test::Unit::TestCase
+class A_Sequence_created_from_pad_numbered_files_should < Minitest::Test
   def setup
     emit_test_dirs
     @gapless = Sequencer.from_single_file(TEST_DIR + "/sequence_and_sole_file/seq1.000245.tif")
@@ -160,7 +160,7 @@ class A_Sequence_created_from_pad_numbered_files_should < Test::Unit::TestCase
   end
   
   def test_initialize_itself_from_one_path_to_a_file_in_the_sequence_without_gaps
-    assert_not_nil @gapless
+    assert @gapless
     assert_kind_of Sequencer::Sequence, @gapless
     assert_respond_to @gapless, :gaps?
     assert !@gapless.single_file?
@@ -181,7 +181,7 @@ class A_Sequence_created_from_pad_numbered_files_should < Test::Unit::TestCase
   end
   
   def test_initialize_itself_from_one_path_to_a_file_in_the_sequence_with_gaps
-    assert_not_nil @with_gaps
+    assert @with_gaps
     assert_kind_of Sequencer::Sequence, @with_gaps
     assert !@with_gaps.single_file?
     
@@ -195,7 +195,7 @@ class A_Sequence_created_from_pad_numbered_files_should < Test::Unit::TestCase
   end
   
   def test_equals_another
-    assert_not_nil @with_gaps
+    assert @with_gaps
     another = Sequencer.from_single_file(TEST_DIR + "/sequence_and_sole_file/broken_seq.000245.tif")
     assert_equal @with_gaps, another
   end

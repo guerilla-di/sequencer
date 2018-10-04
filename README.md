@@ -22,7 +22,7 @@ From the terminal - go to a directory, and then:
 
 You also have `rseqpad` and `rseqrename` :-)
 
-From Ruby code:
+From Ruby code, when dealing with a single file
 
     require "sequencer"
     s = Sequencer.from_single_file("/RAID/Film/CONFORM.092183.dpx")
@@ -30,6 +30,17 @@ From Ruby code:
     s.gaps? #=> true
     s.missing_frames #=> 15, somebody was careless
     s.pattern #=> "CONFORM.%06d.dpx", usable with printf right away
+
+and when dealing with an `Enumerable` of filenames (not necessarily from a file system):
+
+    require "sequencer"
+    seqs = Sequencer.from_enumerable(["/RAID/Film/CONFORM.092184.dpx", "/RAID/Film/CONFORM.092183.dpx"])
+    seqs.inspect #=> [Sequence], it is an array of sequences since the passed Enumerable might have contained multiple
+    s = seqs.first
+    s.file_count #=> 2
+    s.gaps? #=> false
+    s.missing_frames #=> 0
+    s.pattern #=> "/RAID/Film/CONFORM.%06d.dpx", usable with printf right away
 
 ## Installation:
 
