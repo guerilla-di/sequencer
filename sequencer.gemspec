@@ -7,7 +7,7 @@ Gem::Specification.new do |s|
   s.date = "2014-02-18"
   s.email = "me@julik.nl"
   s.executables = ["rseqls", "rseqpad", "rseqrename"]
-  s.extra_rdoc_files = ["README.rdoc"]
+  s.extra_rdoc_files = ["README.md"]
   s.files = `git ls-files -z`.split("\x0")
   s.homepage = "http://guerilla-di.org/sequencer"
   s.licenses = ["MIT"]
